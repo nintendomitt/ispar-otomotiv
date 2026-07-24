@@ -17,7 +17,7 @@
   --shadow: 0 4px 18px rgba(20, 40, 70, 0.08);
   --shadow-lg: 0 12px 32px rgba(20, 40, 70, 0.14);
   --max-width: 1180px;
-  --header-h: 76px;
+  --header-h: 92px;
 }
 
 * { box-sizing: border-box; }
@@ -125,7 +125,7 @@ p { margin: 0 0 1em; color: var(--gray-700); }
 .header-contact-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
 
 .brand { display: flex; align-items: center; gap: 10px; }
-.brand-logo { height: 42px; width: auto; }
+.brand-logo { height: 64px; width: auto; }
 .brand-word {
   font-family: "Inter", sans-serif;
   font-weight: 900;
@@ -527,6 +527,95 @@ p { margin: 0 0 1em; color: var(--gray-700); }
   margin-top: 22px;
 }
 
+/* ---------- Map link overlay (click-through to Google Maps directions) ---------- */
+.map-link {
+  position: relative;
+  display: block;
+  margin-top: 22px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.map-link .map-frame { margin-top: 0; display: block; }
+.map-link-badge {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--blue);
+  color: var(--white);
+  font-weight: 700;
+  font-size: .85rem;
+  padding: 10px 16px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  transition: background .15s ease, transform .15s ease;
+}
+.map-link-badge svg { width: 16px; height: 16px; flex-shrink: 0; }
+.map-link:hover .map-link-badge { background: var(--blue-dark); transform: translateY(-1px); }
+
+/* ---------- Floating actions (WhatsApp + 7/24 hemen ulaş) ---------- */
+.floating-actions {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+.fab {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-lg);
+  font-weight: 700;
+  font-size: .88rem;
+  white-space: nowrap;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.fab:hover { transform: translateY(-2px); }
+.fab svg { flex-shrink: 0; }
+
+.fab--call {
+  background: var(--black);
+  color: var(--white);
+  padding: 13px 20px 13px 16px;
+}
+.fab--call svg { width: 20px; height: 20px; }
+.fab--call:hover { background: var(--blue-dark); }
+
+.fab--whatsapp {
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  justify-content: center;
+  background: #25d366;
+  color: var(--white);
+  position: relative;
+}
+.fab--whatsapp svg { width: 28px; height: 28px; }
+.fab--whatsapp:hover { background: #1ebe5b; }
+.fab--whatsapp::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  box-shadow: 0 0 0 0 rgba(37, 211, 102, .55);
+  animation: fabPulse 2.4s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes fabPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(37, 211, 102, .55); }
+  70%  { box-shadow: 0 0 0 16px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
 .form-card {
   background: var(--white);
   border: 1px solid var(--gray-200);
@@ -608,7 +697,7 @@ p { margin: 0 0 1em; color: var(--gray-700); }
 }
 
 @media (max-width: 760px) {
-  :root { --header-h: 64px; }
+  :root { --header-h: 74px; }
   .main-nav { position: fixed; inset: var(--header-h) 0 0 0; background: var(--white); flex-direction: column; align-items: stretch; padding: 20px 24px; transform: translateY(-8px); opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease; overflow-y: auto; }
   .main-nav.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
   .main-nav ul { flex-direction: column; gap: 4px; }
@@ -618,7 +707,7 @@ p { margin: 0 0 1em; color: var(--gray-700); }
   .header-right .header-contact-btn span.full { display: none; }
   .header-right .header-contact-btn { padding: 10px; }
   .brand-word { font-size: 1.2rem; }
-  .brand-logo { height: 34px; }
+  .brand-logo { height: 48px; }
   .section { padding: 52px 0; }
   .grid--3, .grid--2, .grid--4 { grid-template-columns: 1fr; }
   .about-values { grid-template-columns: 1fr; }
@@ -631,4 +720,13 @@ p { margin: 0 0 1em; color: var(--gray-700); }
   .brand-item img { max-height: 34px; max-width: 96px; }
   .brand-item.text-badge { font-size: 1.1rem; }
   .stat-strip { flex-direction: column; }
+  .floating-actions { right: 14px; bottom: 14px; gap: 10px; }
+  .fab--call { padding: 11px 16px 11px 13px; font-size: .8rem; }
+  .fab--whatsapp { width: 50px; height: 50px; }
+  .fab--whatsapp svg { width: 25px; height: 25px; }
+}
+
+@media (max-width: 400px) {
+  .fab--call .fab-label { display: none; }
+  .fab--call { width: 50px; height: 50px; padding: 0; justify-content: center; border-radius: 999px; }
 }
